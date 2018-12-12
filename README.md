@@ -40,5 +40,6 @@ docker run -d --name=netdata-glibc \
 ```  
 
 #### Parameters
- - run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID
- - python.d.conf is the orginial with `nvidia-smi=yes` uncommented.
+ - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID.
+ - `python.d.conf` is the orginial with `nvidia-smi=yes` uncommented.
+ - This assumes you've edited `/etc/docker/daemon.json` to make `nvidia` the default runtime. If not, you'll need to add `--runtime=nvidia` to the container.
