@@ -1,4 +1,4 @@
-FROM netdata/netdata:v1.12.1
+FROM netdata/netdata
 
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
     ALPINE_GLIBC_PACKAGE_VERSION="2.29-r0" && \
