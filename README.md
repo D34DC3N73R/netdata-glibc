@@ -11,7 +11,6 @@ docker run -d --name=netdata-glibc \
   -v /proc:/host/proc:ro \
   -v /sys:/host/sys:ro \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  -v </path/to/python.d.conf>:/etc/netdata/python.d.conf \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
   d34dc3n73r/netdata-glibc
@@ -36,10 +35,8 @@ docker run -d --name=netdata-glibc \
             - /var/run/docker.sock:/var/run/docker.sock:ro
             - /proc:/host/proc:ro
             - /sys:/host/sys:ro
-            - </path/to/python.d.conf>:/etc/netdata/python.d.conf
 ```  
 
 #### Parameters
  - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID.
- - `python.d.conf` is the orginial with `nvidia-smi=yes` uncommented.
  - This assumes you've edited `/etc/docker/daemon.json` to make `nvidia` the default runtime. If not, you'll need to add `--runtime=nvidia` to the container.
