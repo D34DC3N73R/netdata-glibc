@@ -5,7 +5,6 @@
 ```
 docker run -d --name=netdata-glibc \
   -p 19999:19999 \
-  -e TZ=<timezone> \
   -e PGID=<host docker pgid> \
   -e NVIDIA_VISIBLE_DEVICES=all \
   -v /proc:/host/proc:ro \
@@ -24,7 +23,6 @@ docker run -d --name=netdata-glibc \
         ports:
             - 19999:19999
         environment:
-            - TZ=<timezone>
             - PGID=<host docker pgid>
             - NVIDIA_VISIBLE_DEVICES=all
         cap_add:
@@ -40,6 +38,19 @@ docker run -d --name=netdata-glibc \
 #### Parameters
  - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID.
  - This assumes you've edited `/etc/docker/daemon.json` to make `nvidia` the default runtime. If not, you'll need to add `--runtime=nvidia` to the container.
- 
+
+###### /etc/docker/daemon.json
+```
+{
+    "default-runtime": "nvidia",
+    "runtimes": {
+        "nvidia": {
+            "path": "/usr/bin/nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    }
+}
+```
+
 #### Notes
 This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` if you need futher customization. 
