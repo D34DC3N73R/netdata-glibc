@@ -1,5 +1,5 @@
 # netdata-glibc
-[netdata](https://github.com/netdata/netdata) with [glibc package](https://github.com/sgerrand/alpine-pkg-glibc) for use with [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker)
+This is an automated build of [netdata](https://github.com/netdata/netdata) with [glibc package](https://github.com/sgerrand/alpine-pkg-glibc) for use with [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker)
 
 #### docker run
 ```
@@ -39,7 +39,7 @@ docker run -d --name=netdata-glibc \
  - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID.
  - This assumes you've edited `/etc/docker/daemon.json` to make `nvidia` the default runtime. If not, you'll need to add `--runtime=nvidia` to the container.
 
-###### /etc/docker/daemon.json
+##### /etc/docker/daemon.json
 ```
 {
     "default-runtime": "nvidia",
