@@ -24,9 +24,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
     \
     apk del glibc-i18n && \
     \
-    wget \
-        "https://raw.githubusercontent.com/netdata/netdata/master/collectors/python.d.plugin/python.d.conf" \
-        -O "/etc/netdata/python.d.conf" && \
+    cp "/usr/lib/netdata/conf.d/python.d.conf"  "/etc/netdata/python.d.conf" && \
     sed -i 's/# nvidia_smi: yes/nvidia_smi: yes/' /etc/netdata/python.d.conf && \
     chown root:netdata /etc/netdata/python.d.conf && chmod 664 /etc/netdata/python.d.conf && \
     \
