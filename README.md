@@ -36,8 +36,11 @@ docker run -d --name=netdata-glibc \
 ```  
 
 #### Parameters
- - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID.
- - This assumes you've edited `/etc/docker/daemon.json` to make `nvidia` the default runtime. If not, you'll need to add `--runtime=nvidia` to the container.
+ - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID (999).
+
+#### Notes
+ - This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` for futher customization. 
+ - This assumes `/etc/docker/daemon.json` has been edited to make `nvidia` the default runtime. If not, include `--runtime=nvidia` in the run command, or `runtime: nvidia` to docker-compose v2.4 or previous. Note: `runtime` option is not supported in docker compose v3.
 
 ##### /etc/docker/daemon.json
 ```
@@ -52,5 +55,3 @@ docker run -d --name=netdata-glibc \
 }
 ```
 
-#### Notes
-This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` if you need futher customization. 
