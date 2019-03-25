@@ -40,7 +40,7 @@ docker run -d --name=netdata-glibc \
 
 #### Notes
  - This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` for futher customization. 
- - This assumes `/etc/docker/daemon.json` has been edited to make `nvidia` the default runtime. If not, include `--runtime=nvidia` in the run command, or `runtime: nvidia` to docker-compose v2.4 or previous. Note: `runtime` option is not supported in docker compose v3.
+ - This assumes `/etc/docker/daemon.json` has been edited to make `nvidia` the default runtime. If not, include `--runtime=nvidia` in the run command, or add `runtime: nvidia` to docker compose v2.4 or previous. Note: the `runtime` option is not supported in docker compose v3.x.
 
 ##### /etc/docker/daemon.json
 ```
