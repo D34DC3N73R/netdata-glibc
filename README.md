@@ -1,6 +1,8 @@
 # netdata-glibc
 This is an automated build of [netdata](https://github.com/netdata/netdata) with [glibc package](https://github.com/sgerrand/alpine-pkg-glibc) for use with [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker).
 
+Netdata with Nvidia GPU monitoring in a container. This image was created due to netdata/netdata using Alpine, a non-glibc distribution, as a base. Nvidia Docker is incompatible with non-glibc distributions. This image uses netdata/netdata as a base and adds a GNU C library to run binaries linked against glibc. This image does not contain `nvidia-smi`, but is compatible with `nvidia-docker2`.
+
 ![nvidia-smi_netdata](https://user-images.githubusercontent.com/9123670/58919768-269d0180-86e4-11e9-8405-2a7b7c5917c7.png)
 
 ### docker run
@@ -43,7 +45,6 @@ docker run -d --name=netdata-glibc \
 ### Notes
  - This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` for futher customization. 
  - This assumes `/etc/docker/daemon.json` has been edited to make `nvidia` the default runtime. If not, include `--runtime=nvidia` in the run command, or add `runtime: nvidia` to docker compose v2.4 or previous. Note: the `runtime` option is not supported in docker compose v3.x.
- - This image does not contain nvidia-smi. That is accomplished by installing [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker) on the host system.
 
 ##### /etc/docker/daemon.json
 ```
