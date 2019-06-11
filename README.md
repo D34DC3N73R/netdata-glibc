@@ -13,7 +13,7 @@ docker run -d --name=netdata-glibc \
   -e NVIDIA_VISIBLE_DEVICES=all \
   -v /proc:/host/proc:ro \
   -v /sys:/host/sys:ro \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  -v /var/run/docker.sock:/var/run/docker.sock:rw \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
   d34dc3n73r/netdata-glibc
@@ -34,7 +34,7 @@ docker run -d --name=netdata-glibc \
         security_opt:
             - apparmor:unconfined
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - /var/run/docker.sock:/var/run/docker.sock:rw
             - /proc:/host/proc:ro
             - /sys:/host/sys:ro
 ```  

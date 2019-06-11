@@ -36,3 +36,4 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
 ENV LANG=C.UTF-8
+HEALTHCHECK CMD curl --fail http://localhost:19999/ || exit 1
