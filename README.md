@@ -9,11 +9,11 @@ Netdata with Nvidia GPU monitoring in a container. This image was created due to
 ```
 docker run -d --name=netdata-glibc \
   -p 19999:19999 \
-  -e PGID=<host docker pgid> \
   -e NVIDIA_VISIBLE_DEVICES=all \
+  -v /etc/passwd:/host/etc/passwd:ro \
+  -v /etc/group:/host/etc/group:ro \
   -v /proc:/host/proc:ro \
   -v /sys:/host/sys:ro \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
   d34dc3n73r/netdata-glibc
@@ -27,22 +27,20 @@ docker run -d --name=netdata-glibc \
         ports:
             - 19999:19999
         environment:
-            - PGID=<host docker pgid>
             - NVIDIA_VISIBLE_DEVICES=all
         cap_add:
             - SYS_PTRACE
         security_opt:
             - apparmor:unconfined
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - /etc/passwd:/host/etc/passwd:ro
+            - /etc/group:/host/etc/group:ro
             - /proc:/host/proc:ro
             - /sys:/host/sys:ro
 ```  
 
-### Parameters
- - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get the docker user PGID (999).
-
 ### Notes
+ - Host docker PGID and mounting docker.sock no longer required. The safest way to resolve container names is using something like [HAProxy](https://docs.netdata.cloud/docs/running-behind-haproxy/) so that connections are restricted to read-only access. 
  - This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` for futher customization. 
  - This assumes `/etc/docker/daemon.json` has been edited to make `nvidia` the default runtime. If not, include `--runtime=nvidia` in the run command, or add `runtime: nvidia` to docker compose v2.4 or previous. Note: the `runtime` option is not supported in docker compose v3.x.
 
