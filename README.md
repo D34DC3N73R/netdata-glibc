@@ -63,7 +63,8 @@ services:
 
 ### Container Name Resolution
 #### docker run
- - Use the host docker PGID environment variable. `grep docker /etc/group | cut -d ':' -f 3` (999).
+ - Use the host docker PGID environment variable (999). 
+ - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get this value.
 #### docker-compose
  - Container name resolution no longer requires the host docker PGID and mounting docker.sock. Instead this is handled by [HAProxy](https://docs.netdata.cloud/docs/running-behind-haproxy/) so that connections are restricted to read-only access. For more information check out the [Netdata Docker Installation Page](https://github.com/netdata/netdata/tree/master/packaging/docker). 
 
