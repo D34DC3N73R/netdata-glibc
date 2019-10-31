@@ -54,6 +54,7 @@ services:
             - /proc:/host/proc:ro
             - /sys:/host/sys:ro
     proxy:
+       container_name: proxy
        image: tecnativa/docker-socket-proxy
        volumes:
             - /var/run/docker.sock:/var/run/docker.sock:ro
