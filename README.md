@@ -62,6 +62,10 @@ services:
             - CONTAINERS=1
 ```  
 
+### Prerequisites
+ - Nvidia container toolkit or Nvidia docker 2 installed on the host system
+ - Nvidia drivers installed on the host system
+
 ### Container Name Resolution
 #### docker run
  - Use the host docker PGID environment variable (999). 
@@ -71,7 +75,9 @@ services:
 
 ### Notes
 - This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` for futher customization. 
- - This assumes `/etc/docker/daemon.json` has been edited to make `nvidia` the default runtime. If not, include `--runtime=nvidia` in the run command, or add `runtime: nvidia` to docker compose v2.4 or previous. Note: the `runtime` option is not supported in docker compose v3.x.
+- If using docker-compose v3+ `/etc/docker/daemon.json` must edited to make `nvidia` the default runtime. Example below. 
+- If using docker-compose v2.4 or previous, add `runtime: nvidia`.
+- Docker v19.03+ has native GPU support built into the runtime. See [Docker 19.03 + nvidia-container-toolkit](https://github.com/D34DC3N73R/netdata-glibc#docker-1903--nvidia-container-toolkit) above.
 
 ##### /etc/docker/daemon.json
 ```
@@ -85,4 +91,3 @@ services:
     }
 }
 ```
-
