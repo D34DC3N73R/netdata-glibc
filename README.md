@@ -13,6 +13,7 @@ docker run -d --name=netdata \
   -v /sys:/host/sys:ro \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -e PGID=<HOST_DOCKER_PGID> \
+  -e DO_NOT_TRACK=0 \
   --gpus all \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
@@ -28,6 +29,7 @@ docker run -d --name=netdata \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -e PGID=<HOST_DOCKER_PGID> \
   -e NVIDIA_VISIBLE_DEVICES=all \
+  -e DO_NOT_TRACK=0 \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
   d34dc3n73r/netdata-glibc
@@ -46,6 +48,7 @@ services:
         environment:
             - NVIDIA_VISIBLE_DEVICES=all
             - DOCKER_HOST=proxy:2375
+            - DO_NOT_TRACK=0
         cap_add:
             - SYS_PTRACE
         security_opt:
@@ -74,6 +77,7 @@ services:
  - Container name resolution no longer requires the host docker PGID and mounting docker.sock. Instead this is handled by [HAProxy](https://docs.netdata.cloud/docs/running-behind-haproxy/) so that connections are restricted to read-only access. For more information check out the [Netdata Docker Installation Page](https://github.com/netdata/netdata/tree/master/packaging/docker). 
 
 ### Notes
+- Netdata collects [anonymous statistics](https://docs.netdata.cloud/docs/anonymous-statistics/). If you wish to opt-out, set the envionrment varible `DO_NOT_TRACK=1`.
 - This image uses the [default python.d.conf](https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/python.d.conf) with `nvidia_smi: yes` uncommented. Volume mount a custom python.d.conf to `/etc/netdata/python.d.conf` for futher customization. 
 - If using docker-compose v3+ `/etc/docker/daemon.json` must edited to make `nvidia` the default runtime. Example below. 
 - If using docker-compose v2.4 or previous, add `runtime: nvidia`.
