@@ -1,7 +1,7 @@
 # netdata-glibc
-This is an automated build of [netdata](https://github.com/netdata/netdata) with [glibc package](https://github.com/sgerrand/alpine-pkg-glibc) for use with [nvidia-docker2 / nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-docker).
+This is an automated build of [netdata](https://github.com/netdata/netdata) with [glibc package](https://github.com/sgerrand/alpine-pkg-glibc) for use with [nvidia-docker2 / nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-docker). Now available in Unraid Community Applications.
 
-Netdata with Nvidia GPU monitoring in a container. This image was created due to netdata/netdata using Alpine, a musl distribution, as a base. Nvidia Docker / Nvidia Container Toolkit is  only compatible with glibc distributions. This image uses netdata/netdata as a base and adds a GNU C library to run binaries linked against glibc. This image does not contain `nvidia-smi`, but is compatible with `nvidia-docker2` / `nvidia-container-toolkit`.
+Netdata with Nvidia GPU monitoring in a container. This image was created due to netdata/netdata using Alpine, a musl distribution, as a base. Nvidia Docker / Nvidia Container Toolkit is  only compatible with glibc distributions. This image uses netdata/netdata as a base and adds a GNU C library to run binaries linked against glibc. This image does not contain `nvidia-smi`, but is compatible with nvidia-docker2, nvidia-container-toolkit and the Unraid Nvidia Plugin.
 
 ![nvidia-smi_netdata](https://user-images.githubusercontent.com/9123670/58919768-269d0180-86e4-11e9-8405-2a7b7c5917c7.png)
 
