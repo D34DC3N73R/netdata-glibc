@@ -34,5 +34,8 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
+COPY run.sh /usr/sbin/run.sh
+CMD chmod +x /usr/sbin/run.sh
 ENV LANG=C.UTF-8
-HEALTHCHECK CMD curl --fail http://localhost:19999/ || exit 1
+HEALTHCHECK CMD if [ ! -f '/etc/netdata/netdata.conf' ]; then curl -o '/etc/netdata/netdata.conf' 'http://localhost:19999/netdata.conf'; fi && curl --fail http://localhost:19999/ || exit 1
+ENTRYPOINT ["/usr/sbin/run.sh"]
