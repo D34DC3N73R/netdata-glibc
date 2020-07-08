@@ -13,7 +13,7 @@ docker run -d --name=netdata \
   -v /sys:/host/sys:ro \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -e PGID=<HOST_DOCKER_PGID> \
-  -e DO_NOT_TRACK=0 \
+  -e DO_NOT_TRACK= \
   --gpus all \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
@@ -29,7 +29,7 @@ docker run -d --name=netdata \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -e PGID=<HOST_DOCKER_PGID> \
   -e NVIDIA_VISIBLE_DEVICES=all \
-  -e DO_NOT_TRACK=0 \
+  -e DO_NOT_TRACK= \
   --cap-add SYS_PTRACE \
   --security-opt apparmor=unconfined \
   d34dc3n73r/netdata-glibc
@@ -48,7 +48,7 @@ services:
         environment:
             - NVIDIA_VISIBLE_DEVICES=all
             - DOCKER_HOST=proxy:2375
-            - DO_NOT_TRACK=0
+            - DO_NOT_TRACK=
         cap_add:
             - SYS_PTRACE
         security_opt:
@@ -75,6 +75,11 @@ services:
  - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get this value.
 #### docker-compose
  - Container name resolution no longer requires the host docker PGID and mounting docker.sock. Instead this is handled by [HAProxy](https://docs.netdata.cloud/docs/running-behind-haproxy/) so that connections are restricted to read-only access. For more information check out the [Netdata Docker Installation Page](https://github.com/netdata/netdata/tree/master/packaging/docker). 
+
+### Override Directory
+This image includes an override feature. Volume mount the container path /etc/netdata anywhere you'd like to store your override files. The override directory contains placeholder directories, a generated netdata.conf file, and the edit-config script. The edit-config script can be used to make edits on any stock conf file. For instance, to edit python.d.conf do the following.
+`docker exec -it netdata /etc/netdata/edit-config python.d.conf`
+This command with load python.d.conf file from the stock configuration directory /usr/lib/netdata/conf.d using vi as an editor. The edited file will be saved to /etc/netdata and will override the stock configuration when netdata is restarted. Subsequent edits on a file will load the file from /etc/netdata.
 
 ### Notes
 - Netdata collects [anonymous statistics](https://docs.netdata.cloud/docs/anonymous-statistics/). If you wish to opt-out, set the envionrment varible `DO_NOT_TRACK=1`.
