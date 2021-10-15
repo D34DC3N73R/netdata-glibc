@@ -1,0 +1,21 @@
+name: Push to Docker Hub
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: push to docker hub
+      uses: docker/build-push-action@v1
+      with:
+        username: d34dc3n73r
+        password: ${{ secrets.DOCKER_HUB }}
+        repository: d34dc3n73r/netdata-glibc
+        tags: latest
