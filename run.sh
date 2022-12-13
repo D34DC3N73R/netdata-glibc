@@ -14,7 +14,7 @@ echo "Netdata entrypoint script starting"
 
 # Add edit-config to /etc/netdata if it does not exist
 if [ ! -f '/etc/netdata/edit-config' ]; then
-  wget -O '/etc/netdata/edit-config' 'https://raw.githubusercontent.com/netdata/netdata/master/system/edit-config.in'
+  wget -O '/etc/netdata/edit-config' 'https://raw.githubusercontent.com/netdata/netdata/master/system/edit-config'
   sed -i -e 's#@configdir_POST@#/etc/netdata#' -e 's#@libconfigdir_POST@#/usr/lib/netdata/conf.d#' '/etc/netdata/edit-config'
   chmod +x '/etc/netdata/edit-config'
 fi
