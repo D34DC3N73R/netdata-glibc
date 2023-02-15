@@ -94,7 +94,7 @@ services:
  - Container name resolution no longer requires the host docker PGID and mounting docker.sock. Instead this is handled by [HAProxy](https://docs.netdata.cloud/docs/running-behind-haproxy/) so that connections are restricted to read-only access. For more information check out the [Netdata Docker Installation Page](https://github.com/netdata/netdata/tree/master/packaging/docker). 
 
 ### Override Directory
-Netdata now has override support built into their docker images. See [Configure Agent Containers](https://learn.netdata.cloud/docs/agent/packaging/docker#configure-agent-containers) for more information. Vi is the default editor, but I like nano so this image includes nano. Use it with `./edit-config --editor nano <filename of the config to edit>`.
+Netdata now has override support built into their docker images. See [Configure Agent Containers](https://learn.netdata.cloud/docs/agent/packaging/docker#configure-agent-containers) for more information. Vi is the default editor, but I like nano so this image includes nano. Use it with `./edit-config --editor nano <config filename>`.
 
 ### Notes
 - Netdata collects [anonymous statistics](https://docs.netdata.cloud/docs/anonymous-statistics/). If you wish to opt-out, set the envionrment varible `DO_NOT_TRACK=1`.
