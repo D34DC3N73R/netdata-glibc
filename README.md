@@ -19,6 +19,9 @@ docker run -d --name=netdata \
   -v /etc/os-release:/host/etc/os-release:ro \
   -e PGID=<HOST_DOCKER_PGID> \
   -e DO_NOT_TRACK= \
+  -e NETDATA_CLAIM_TOKEN= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker \
+  -e NETDATA_CLAIM_URL=https://app.netdata.cloud \
+  -e NETDATA_CLAIM_ROOMS= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker
   --gpus all \
   --restart unless-stopped \
   --cap-add SYS_PTRACE \
@@ -72,6 +75,11 @@ services:
        environment:
             - CONTAINERS=1
 ```  
+### Available Tags
+ - stable
+   - built from netdata/netdata:stable and updated with new netdata official releases
+ - latest
+   - an automated nightly build using netdata/netdata:latest
 
 ### Prerequisites
  - Nvidia container toolkit installed on the host system
