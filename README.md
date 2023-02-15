@@ -22,7 +22,7 @@ docker run -d --name=netdata \
   -e DO_NOT_TRACK= \
   -e NETDATA_CLAIM_TOKEN= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker \
   -e NETDATA_CLAIM_URL=https://app.netdata.cloud \
-  -e NETDATA_CLAIM_ROOMS= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker
+  -e NETDATA_CLAIM_ROOMS= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker \
   --gpus all \
   --restart unless-stopped \
   --cap-add SYS_PTRACE \
