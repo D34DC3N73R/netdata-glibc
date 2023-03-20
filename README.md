@@ -68,13 +68,13 @@ services:
           - driver: nvidia
             count: all
             capabilities: [gpu]
-    proxy:
-       container_name: proxy
-       image: tecnativa/docker-socket-proxy
-       volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-       environment:
-            - CONTAINERS=1
+  proxy:
+    container_name: proxy
+    image: tecnativa/docker-socket-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
 ```  
 ### Available Tags
  - stable
@@ -88,8 +88,7 @@ services:
 
 ### Container Name Resolution
 #### docker run
- - Use the host docker PGID environment variable. 
- - Run `grep docker /etc/group | cut -d ':' -f 3` on the host system to get this value.
+ - Use the host docker PGID environment variable. To get this value run `grep docker /etc/group | cut -d ':' -f 3` on the host system.
 #### docker-compose
  - Container name resolution no longer requires the host docker PGID and mounting docker.sock. Instead this is handled by [HAProxy](https://docs.netdata.cloud/docs/running-behind-haproxy/) so that connections are restricted to read-only access. For more information check out the [Netdata Docker Installation Page](https://github.com/netdata/netdata/tree/master/packaging/docker). 
 
