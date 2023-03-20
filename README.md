@@ -77,9 +77,9 @@ services:
       - CONTAINERS=1
 ```  
 ### Available Tags
- - stable
+ - d34dc3n73r/netdata-glibc:stable
    - built from netdata/netdata:stable and updated with new netdata official releases
- - latest
+ - d34dc3n73r/netdata-glibc:latest
    - an automated nightly build using netdata/netdata:latest
 
 ### Prerequisites
