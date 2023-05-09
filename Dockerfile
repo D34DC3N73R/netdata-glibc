@@ -1,11 +1,11 @@
 FROM netdata/netdata
 
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
-    ALPINE_GLIBC_PACKAGE_VERSION="2.34-r0" && \
+    ALPINE_GLIBC_PACKAGE_VERSION="2.35-r1" && \
     ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
     ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
     ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    apk update && apk add --no-cache --virtual=.build-dependencies wget sed ca-certificates && \
+    apk update && apk add --no-cache --virtual=.build-dependencies wget sed ca-certificates && apk add nano && \
     wget \
         "https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub" \
         -O "/etc/apk/keys/sgerrand.rsa.pub" && \
@@ -29,6 +29,9 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
     sed -i 's/# nvidia_smi: yes/nvidia_smi: yes/' /usr/lib/netdata/conf.d/python.d.conf && \
     chown netdata:root /usr/lib/netdata/conf.d/python.d.conf && chmod 664 /usr/lib/netdata/conf.d/python.d.conf && \
     \
+    mkdir -p /lib64 && \
+    ln -sf /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2 && \
+    \
     rm "/root/.wget-hsts" && \
     apk del .build-dependencies && \
     rm \
@@ -36,8 +39,6 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
-COPY run.sh /usr/sbin/run.sh
-CMD chmod +x /usr/sbin/run.sh
 ENV LANG=C.UTF-8
-HEALTHCHECK CMD if [ ! -f '/etc/netdata/netdata.conf' ]; then curl -o '/etc/netdata/netdata.conf' 'http://localhost:19999/netdata.conf'; fi && curl --fail http://localhost:19999/ || exit 1
 ENTRYPOINT ["/usr/sbin/run.sh"]
+
