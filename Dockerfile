@@ -1,7 +1,7 @@
 FROM netdata/netdata
 
 RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
-    ALPINE_GLIBC_PACKAGE_VERSION="2.34-r0" && \
+    ALPINE_GLIBC_PACKAGE_VERSION="2.35-r1" && \
     ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
     ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
     ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
@@ -28,6 +28,9 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
     \
     sed -i 's/# nvidia_smi: yes/nvidia_smi: yes/' /usr/lib/netdata/conf.d/python.d.conf && \
     chown netdata:root /usr/lib/netdata/conf.d/python.d.conf && chmod 664 /usr/lib/netdata/conf.d/python.d.conf && \
+    \
+    mkdir -p /lib64 && \
+    ln -sf /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2 && \
     \
     rm "/root/.wget-hsts" && \
     apk del .build-dependencies && \
