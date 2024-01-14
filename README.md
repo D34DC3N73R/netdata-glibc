@@ -1,3 +1,88 @@
+# ⚠️ DEPRECATED via Netdata v1.43.0 ⚠️
+Netdata can now utilize GPUs in the native image since it's now based on Debian. This image is no longer needed. Examples using the netdata/netdata image below
+### Docker & nvidia-container-toolkit
+```
+docker run -d --name=netdata \
+  -p 19999:19999 \
+  -v <YOUR DOCKER CONFIGS>/netdata/config:/etc/netdata \
+  -v netdatalib:/var/lib/netdata \
+  -v netdatacache:/var/lib/cache/netdata \
+  -v /etc/passwd:/host/etc/passwd:ro \
+  -v /etc/group:/host/etc/group:ro \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  -v /proc:/host/proc:ro \
+  -v /sys:/host/sys:ro \
+  -v /etc/os-release:/host/etc/os-release:ro \
+  -e PGID=<HOST_DOCKER_PGID> \
+  -e DO_NOT_TRACK= \
+  -e NETDATA_CLAIM_TOKEN= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker \
+  -e NETDATA_CLAIM_URL=https://app.netdata.cloud \
+  -e NETDATA_CLAIM_ROOMS= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker \
+  --gpus all \
+  --restart unless-stopped \
+  --cap-add SYS_PTRACE \
+  --security-opt apparmor=unconfined \
+  netdata/netdata:stable
+```
+
+### Docker Compose
+```
+version: '3.8'
+services:
+  netdata:
+    image: netdata/netdata:stable
+    container_name: netdata
+    hostname: netdata.example.com
+    ports:
+      - 19999:19999
+    restart: unless-stopped
+    depends_on:
+      - proxy
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - DOCKER_HOST=proxy:2375
+      - NETDATA_CLAIM_TOKEN= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker
+      - NETDATA_CLAIM_URL=https://app.netdata.cloud
+      - NETDATA_CLAIM_ROOMS= # See https://learn.netdata.cloud/docs/agent/claim#connect-an-agent-running-in-docker
+    volumes:
+      - <YOUR DOCKER CONFIGS>/netdata/config:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/lib/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log/journal:/var/log/journal:ro
+      - /run/systemd/private:/run/systemd/private:ro
+      - /mnt/media:/mnt/media:ro
+    labels:
+      - swag=enable
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+  proxy:
+    container_name: proxy
+    image: tecnativa/docker-socket-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CONTAINERS=1
+
+volumes:
+  netdatalib:
+  netdatacache:
+```  
+
+
+
 # netdata-glibc
 This is an automated build of [netdata](https://github.com/netdata/netdata) with [glibc package](https://github.com/sgerrand/alpine-pkg-glibc) for use with [nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-docker). Also available in Unraid Community Applications.
 
